@@ -1,7 +1,5 @@
-# $Revision: 1.35 $, $Date: 2011/04/20 12:10:36 $
 # TODO:
 # - tigervnc.init
-
 Summary:	A NAT64 daemon
 Name:		tayga
 Version:	0.9.2
@@ -23,9 +21,7 @@ networks where dedicated NAT64 hardware would be overkill.
 %setup -q
 
 %build
-
-%{configure}
-
+%configure
 %{__make}
 
 %install
@@ -33,7 +29,7 @@ rm -rf $RPM_BUILD_ROOT
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
-mv $RPM_BUILD_ROOT%{_sysconfdir}/tayga.conf.example $RPM_BUILD_ROOT%{_sysconfdir}/tayga.conf
+mv $RPM_BUILD_ROOT%{_sysconfdir}/tayga.conf{.example,}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -41,7 +37,7 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc README
-%{_sysconfdir}/tayga.conf
+%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/tayga.conf
 %attr(755,root,root) %{_sbindir}/tayga
 %{_mandir}/man5/tayga.conf.5*
 %{_mandir}/man8/tayga.8*
